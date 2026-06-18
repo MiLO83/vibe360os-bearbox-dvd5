@@ -1,0 +1,15 @@
+[Unit]
+Description=BearBox Vibe WebSocket patch server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/opt/vibes
+ExecStart=/usr/bin/npm run patch
+Restart=always
+RestartSec=2
+User=__BEARBOX_ADMIN_USER__
+Group=__BEARBOX_ADMIN_USER__
+
+[Install]
+WantedBy=multi-user.target

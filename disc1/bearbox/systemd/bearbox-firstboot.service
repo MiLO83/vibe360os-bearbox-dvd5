@@ -1,0 +1,13 @@
+[Unit]
+Description=BearBox first boot network bootstrap
+Wants=network-online.target
+After=network-online.target
+ConditionPathExists=!/var/lib/bearbox-firstboot-complete
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/bearbox-firstboot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

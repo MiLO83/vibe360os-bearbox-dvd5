@@ -1,0 +1,13 @@
+cache/
+out/
+*.iso
+*.iso.part-*
+*.img
+*.log
+*.sig
+*.key
+*.pem
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db

@@ -1,0 +1,12 @@
+[Unit]
+Description=BearBox authenticated browser terminal
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/ttyd --interface 127.0.0.1 --port 7681 --writable login
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

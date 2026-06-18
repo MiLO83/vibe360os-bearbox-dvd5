@@ -1,0 +1,13 @@
+[Unit]
+Description=BearBox Disc 2 boot-key gate for vibe runtime services
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/bearbox-verify-boot-key
+ExecStart=/bin/systemctl start vibe-patch.service vibe-webxr.service
+ExecStop=/bin/systemctl stop vibe-patch.service vibe-webxr.service
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

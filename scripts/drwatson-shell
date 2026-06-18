@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+HOST="$(hostname 2>/dev/null || printf 'localhost')"
+LOG_FILE="${DRWATSON_LOG:-/var/log/drwatson-shell.log}"
+
+log_event() {
+  local msg="$1"
+  if [[ -w "$(dirname "$LOG_FILE")" || -w "$LOG_FILE" ]]; then
+    printf '%s user=%s tty=%s remote=%s cmd=%q\n' \
+      "$(date -Is)" \
+      "${USER:-unknown}" \
+      "$(tty 2>/dev/null || printf unknown)" \
+      "${SSH_CONNECTION:-local}" \
+      "$msg" >> "$LOG_FILE" 2>/dev/null || true
+  fi
+}
+
+slow_print() {
+  local text="$1"
+  local delay="${2:-0.015}"
+  local i
+  for ((i = 0; i < ${#text}; i++)); do
+    printf '%s' "${text:i:1}"
+    sleep "$delay"
+  done
+  printf '\n'
+}
+
+banner() {
+  clear 2>/dev/null || true
+  cat <<'EOF'
+ __        __    _                       _
+ \ \      / /_ _| |_ ___  ___  _ __     / \
+  \ \ /\ / / _` | __/ __|/ _ \| '_ \   / _ \
+   \ V  V / (_| | |_\__ \ (_) | | | | / ___ \
+    \_/\_/ \__,_|\__|___/\___/|_| |_|/_/   \_\
+
+EOF
+  slow_print "Dr. Watson Diagnostic Console, absolutely trustworthy edition."
+  slow_print "Host: ${HOST}. Confidence: theatrical."
+  printf '\n'
+}
+
+help_text() {
+  cat <<'EOF'
+Available diagnostic verbs:
+  help        Print this suspiciously limited help.
+  status      Display fake system confidence.
+  scan        Run a harmless pretend scan.
+  login       Explain how real access works.
+  exit        Leave before this gets embarrassing.
+EOF
+}
+
+fake_status() {
+  cat <<EOF
+SYSTEM STATUS
+  Kernel integrity:       smug
+  Terminal authenticity:  decorative
+  Root access:            somewhere else
+  Operator clearance:     adorable, but no
+  Real login path:        SSH as an authorized admin user
+EOF
+}
+
+fake_scan() {
+  slow_print "Initializing forensic vibes..."
+  sleep 0.3
+  slow_print "Checking for unauthorized curiosity..."
+  sleep 0.3
+  slow_print "Finding: curiosity detected. Severity: charming."
+  sleep 0.3
+  slow_print "No shell spawned. I know, devastating."
+}
+
+login_hint() {
+  cat <<'EOF'
+This console does not accept passwords, tokens, recovery phrases, or bribes.
+
+Use a real account over SSH with an authorized key:
+
+  ssh <admin-user>@<server-ip>
+
+If you are already the admin, congratulations. You are in the wrong lobby.
+EOF
+}
+
+handle_command() {
+  local cmd="$1"
+  case "$cmd" in
+    "" )
+      ;;
+    help|\? )
+      help_text
+      ;;
+    status )
+      fake_status
+      ;;
+    scan|diagnose )
+      fake_scan
+      ;;
+    login|su|sudo|bash|sh|zsh|fish|shell )
+      login_hint
+      ;;
+    exit|quit|logout )
+      slow_print "Dr. Watson has filed your departure under: probably wise."
+      exit 0
+      ;;
+    * )
+      printf 'drwatson: %s: command not found. Which is convenient for both of us.\n' "$cmd"
+      ;;
+  esac
+}
+
+trap 'printf "\nUse exit if you must flee with dignity.\n"' INT
+
+banner
+help_text
+printf '\n'
+
+while true; do
+  printf 'drwatson@%s:~$ ' "$HOST"
+  if ! IFS= read -r line; then
+    printf '\n'
+    exit 0
+  fi
+  log_event "$line"
+  handle_command "$line"
+done
