@@ -33,6 +33,11 @@ choose the first verbose safe-graphics entry. It uses text graphics, `nomodeset`
 and forced kernel/systemd console logging. The normal-graphics verbose entries
 are there as fallback options if safe graphics is too conservative.
 
+If that still hangs at the same EFI stub PCR 9 line, try:
+
+  BearBox Install/Refresh VERBOSE no EFI runtime
+  BearBox Install/Refresh VERBOSE ACPI/APIC fallback
+
 Multiboot / Alongside Existing OS
 ---------------------------------
 BearBox can be installed on its own partition alongside Windows or another

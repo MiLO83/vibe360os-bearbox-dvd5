@@ -204,10 +204,22 @@ set menu_color_highlight=black/light-gray
 
 set bearbox_debug_args="console=tty0 loglevel=7 ignore_loglevel debug systemd.show_status=1 systemd.log_level=debug systemd.log_target=console rd.debug earlycon=efifb keep_bootcon efi=debug"
 set bearbox_safe_debug_args="${bearbox_debug_args} nomodeset"
+set bearbox_noefi_debug_args="${bearbox_safe_debug_args} noefi"
+set bearbox_acpi_debug_args="${bearbox_safe_debug_args} noapic nolapic irqpoll pci=nomsi"
 
 menuentry "BearBox Install/Refresh VERBOSE (safe graphics, confirm storage)" {
 	set gfxpayload=text
 	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_safe_debug_args} ---
+	initrd	/casper/initrd
+}
+menuentry "BearBox Install/Refresh VERBOSE no EFI runtime" {
+	set gfxpayload=text
+	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_noefi_debug_args} ---
+	initrd	/casper/initrd
+}
+menuentry "BearBox Install/Refresh VERBOSE ACPI/APIC fallback" {
+	set gfxpayload=text
+	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_acpi_debug_args} ---
 	initrd	/casper/initrd
 }
 menuentry "BearBox FULL WIPE VERBOSE (DESTROYS selected disk)" {
