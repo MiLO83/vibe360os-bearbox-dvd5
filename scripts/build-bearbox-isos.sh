@@ -197,28 +197,42 @@ cat >"$STAGE1/boot/grub/grub.cfg" <<'EOF'
 set timeout=30
 
 loadfont unicode
+terminal_output console
 
 set menu_color_normal=white/black
 set menu_color_highlight=black/light-gray
 
-menuentry "BearBox Install/Refresh (autoinstall seed, confirm storage)" {
-	set gfxpayload=keep
-	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ---
+set bearbox_debug_args="console=tty0 loglevel=7 ignore_loglevel debug systemd.show_status=1 systemd.log_level=debug systemd.log_target=console rd.debug earlycon=efifb keep_bootcon efi=debug"
+set bearbox_safe_debug_args="${bearbox_debug_args} nomodeset"
+
+menuentry "BearBox Install/Refresh VERBOSE (safe graphics, confirm storage)" {
+	set gfxpayload=text
+	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_safe_debug_args} ---
 	initrd	/casper/initrd
 }
-menuentry "BearBox FULL WIPE install (DESTROYS selected disk)" {
+menuentry "BearBox FULL WIPE VERBOSE (DESTROYS selected disk)" {
+	set gfxpayload=text
+	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud-wipe/ ${bearbox_safe_debug_args} ---
+	initrd	/casper/initrd
+}
+menuentry "BearBox Install/Refresh normal graphics (verbose)" {
 	set gfxpayload=keep
-	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud-wipe/ ---
+	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_debug_args} ---
+	initrd	/casper/initrd
+}
+menuentry "BearBox FULL WIPE normal graphics (verbose, DESTROYS selected disk)" {
+	set gfxpayload=keep
+	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud-wipe/ ${bearbox_debug_args} ---
 	initrd	/casper/initrd
 }
 menuentry "Try or Install Ubuntu Server (stock)" {
 	set gfxpayload=keep
-	linux	/casper/vmlinuz  ---
+	linux	/casper/vmlinuz ${bearbox_debug_args} ---
 	initrd	/casper/initrd
 }
 menuentry "Ubuntu Server with the HWE kernel (stock)" {
 	set gfxpayload=keep
-	linux	/casper/hwe-vmlinuz  ---
+	linux	/casper/hwe-vmlinuz ${bearbox_debug_args} ---
 	initrd	/casper/hwe-initrd
 }
 grub_platform

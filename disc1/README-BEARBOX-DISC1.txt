@@ -13,15 +13,25 @@ password. Write them down somewhere safe.
 
 Storage Safety
 --------------
-The default BearBox menu entry keeps storage selection interactive. Carefully
-confirm the target disk before installing.
+The default BearBox menu entry keeps storage selection interactive and boots in
+verbose safe-graphics mode. Carefully confirm the target disk before
+installing.
 
 The disc also includes a separate full-wipe entry:
 
-  BearBox FULL WIPE install (DESTROYS selected disk)
+  BearBox FULL WIPE VERBOSE (DESTROYS selected disk)
 
 Choose that only when you want BearBox to take over a whole disk. It uses
 Ubuntu's LVM layout and destroys the selected disk's existing partitions.
+
+If boot hangs after only:
+
+  EFI stub: Loaded initrd from LINUX_EFI_INITRD_MEDIA_GUID device path
+  EFI stub: Measured initrd data into PCR 9
+
+choose the first verbose safe-graphics entry. It uses text graphics, `nomodeset`,
+and forced kernel/systemd console logging. The normal-graphics verbose entries
+are there as fallback options if safe graphics is too conservative.
 
 Multiboot / Alongside Existing OS
 ---------------------------------
