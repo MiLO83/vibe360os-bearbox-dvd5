@@ -241,6 +241,21 @@ menuentry "BearBox Install/Refresh VERBOSE PCI resource fallback" {
 	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_pci_resource_args} ---
 	initrd	/casper/initrd
 }
+menuentry "BearBox Install/Refresh HWE NVIDIA bus 23 blacklist" {
+	set gfxpayload=text
+	linux	/casper/hwe-vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_gpu_blacklist_args} ---
+	initrd	/casper/hwe-initrd
+}
+menuentry "BearBox Install/Refresh HWE PCI resource fallback" {
+	set gfxpayload=text
+	linux	/casper/hwe-vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_pci_resource_args} ---
+	initrd	/casper/hwe-initrd
+}
+menuentry "BearBox Install/Refresh HWE ACPI off" {
+	set gfxpayload=text
+	linux	/casper/hwe-vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_acpi_off_debug_args} ---
+	initrd	/casper/hwe-initrd
+}
 menuentry "BearBox Install/Refresh VERBOSE last resort ACPI off" {
 	set gfxpayload=text
 	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_acpi_off_debug_args} ---

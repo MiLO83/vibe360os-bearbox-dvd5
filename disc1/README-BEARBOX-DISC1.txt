@@ -44,6 +44,9 @@ If boot reaches PCI enumeration and stalls around a line such as
   BearBox Install/Refresh VERBOSE PCI bridge fallback
   BearBox Install/Refresh VERBOSE NVIDIA bus 23 blacklist
   BearBox Install/Refresh VERBOSE PCI resource fallback
+  BearBox Install/Refresh HWE NVIDIA bus 23 blacklist
+  BearBox Install/Refresh HWE PCI resource fallback
+  BearBox Install/Refresh HWE ACPI off
   BearBox Install/Refresh VERBOSE last resort ACPI off
 
 On the reference build machine, Linux bus `23` maps to PCI bus `0x23`
