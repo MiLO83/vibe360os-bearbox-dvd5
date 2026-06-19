@@ -206,6 +206,8 @@ set bearbox_debug_args="console=tty0 loglevel=7 ignore_loglevel debug systemd.sh
 set bearbox_safe_debug_args="${bearbox_debug_args} nomodeset"
 set bearbox_noefi_debug_args="${bearbox_safe_debug_args} noefi"
 set bearbox_acpi_debug_args="${bearbox_safe_debug_args} noapic nolapic irqpoll pci=nomsi"
+set bearbox_pci_debug_args="${bearbox_safe_debug_args} pci=nommconf,noaer,routeirq pcie_aspm=off"
+set bearbox_acpi_off_debug_args="${bearbox_pci_debug_args} acpi=off"
 
 menuentry "BearBox Install/Refresh VERBOSE (safe graphics, confirm storage)" {
 	set gfxpayload=text
@@ -220,6 +222,16 @@ menuentry "BearBox Install/Refresh VERBOSE no EFI runtime" {
 menuentry "BearBox Install/Refresh VERBOSE ACPI/APIC fallback" {
 	set gfxpayload=text
 	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_acpi_debug_args} ---
+	initrd	/casper/initrd
+}
+menuentry "BearBox Install/Refresh VERBOSE PCI bridge fallback" {
+	set gfxpayload=text
+	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_pci_debug_args} ---
+	initrd	/casper/initrd
+}
+menuentry "BearBox Install/Refresh VERBOSE last resort ACPI off" {
+	set gfxpayload=text
+	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_acpi_off_debug_args} ---
 	initrd	/casper/initrd
 }
 menuentry "BearBox FULL WIPE VERBOSE (DESTROYS selected disk)" {

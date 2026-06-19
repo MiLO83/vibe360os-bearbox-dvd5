@@ -38,6 +38,12 @@ If that still hangs at the same EFI stub PCR 9 line, try:
   BearBox Install/Refresh VERBOSE no EFI runtime
   BearBox Install/Refresh VERBOSE ACPI/APIC fallback
 
+If boot reaches PCI enumeration and stalls around a line such as
+`PCI bridge to bus 23`, try:
+
+  BearBox Install/Refresh VERBOSE PCI bridge fallback
+  BearBox Install/Refresh VERBOSE last resort ACPI off
+
 Multiboot / Alongside Existing OS
 ---------------------------------
 BearBox can be installed on its own partition alongside Windows or another
