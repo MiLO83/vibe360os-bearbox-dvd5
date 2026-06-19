@@ -53,6 +53,12 @@ On the reference build machine, Linux bus `23` maps to PCI bus `0x23`
 (Windows decimal bus 35): the NVIDIA GPU and its HDMI/DP audio function behind
 the AMD PCIe bridge.
 
+When Disc 1 is copied to a FAT32 fixed partition instead of booted as an ISO,
+the Windows-visible file names differ from the ISO's Linux Rock Ridge names.
+Use the `BearBox PARTITION ...` menu entries on that copied partition; they use
+the partition's real paths such as `/CASPER/HWE_VMLINUZ`, `/CASPER/HWE_INITRD`,
+`/cdrom/NOCLOUD/`, and `/cdrom/NOCLOUD_WIPE/`.
+
 Multiboot / Alongside Existing OS
 ---------------------------------
 BearBox can be installed on its own partition alongside Windows or another
