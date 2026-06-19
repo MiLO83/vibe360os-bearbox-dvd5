@@ -42,7 +42,13 @@ If boot reaches PCI enumeration and stalls around a line such as
 `PCI bridge to bus 23`, try:
 
   BearBox Install/Refresh VERBOSE PCI bridge fallback
+  BearBox Install/Refresh VERBOSE NVIDIA bus 23 blacklist
+  BearBox Install/Refresh VERBOSE PCI resource fallback
   BearBox Install/Refresh VERBOSE last resort ACPI off
+
+On the reference build machine, Linux bus `23` maps to PCI bus `0x23`
+(Windows decimal bus 35): the NVIDIA GPU and its HDMI/DP audio function behind
+the AMD PCIe bridge.
 
 Multiboot / Alongside Existing OS
 ---------------------------------

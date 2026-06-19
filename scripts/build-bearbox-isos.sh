@@ -208,6 +208,8 @@ set bearbox_noefi_debug_args="${bearbox_safe_debug_args} noefi"
 set bearbox_acpi_debug_args="${bearbox_safe_debug_args} noapic nolapic irqpoll pci=nomsi"
 set bearbox_pci_debug_args="${bearbox_safe_debug_args} pci=nommconf,noaer,routeirq pcie_aspm=off"
 set bearbox_acpi_off_debug_args="${bearbox_pci_debug_args} acpi=off"
+set bearbox_gpu_blacklist_args="${bearbox_safe_debug_args} modprobe.blacklist=nouveau,nvidia,nvidia_drm,nvidia_modeset nouveau.blacklist=1 rd.driver.blacklist=nouveau video=efifb:off"
+set bearbox_pci_resource_args="${bearbox_safe_debug_args} pci=nocrs,realloc=off,noaer pcie_aspm=off"
 
 menuentry "BearBox Install/Refresh VERBOSE (safe graphics, confirm storage)" {
 	set gfxpayload=text
@@ -227,6 +229,16 @@ menuentry "BearBox Install/Refresh VERBOSE ACPI/APIC fallback" {
 menuentry "BearBox Install/Refresh VERBOSE PCI bridge fallback" {
 	set gfxpayload=text
 	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_pci_debug_args} ---
+	initrd	/casper/initrd
+}
+menuentry "BearBox Install/Refresh VERBOSE NVIDIA bus 23 blacklist" {
+	set gfxpayload=text
+	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_gpu_blacklist_args} ---
+	initrd	/casper/initrd
+}
+menuentry "BearBox Install/Refresh VERBOSE PCI resource fallback" {
+	set gfxpayload=text
+	linux	/casper/vmlinuz autoinstall ds=nocloud\;s=/cdrom/nocloud/ ${bearbox_pci_resource_args} ---
 	initrd	/casper/initrd
 }
 menuentry "BearBox Install/Refresh VERBOSE last resort ACPI off" {
